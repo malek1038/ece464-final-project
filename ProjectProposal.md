@@ -20,6 +20,9 @@ Users(uid: integer, name: string, password: string, email: string)
 **Event Schema:** 
 Events(eid: integer, name: string, organizer: string, type: string, location: string, capacity: integer, date: string)
 
+**Reservation Schema:**
+Reservations(uid: integer, eid: integer)
+
 # Table SQL commands
 
 
