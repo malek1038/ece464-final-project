@@ -15,7 +15,7 @@ Our databse will include data about the users, such as a uid and name. It will i
 # Schema
 
 **Event Schema:** 
-Students(sid: string, name: string, login: string, age: integer, gpa: real)
+Events(eid: integer, name: string, organizer: string, type: string, location: string, capacity: integer, date: string)
 
 # Table SQL commands
 
