@@ -15,10 +15,10 @@ Our databse will include data about the users, such as a uid and name. It will i
 # Schema
 
 **User Schema:** 
-Users(uid: integer, name: string, password: string, email: string)
+Users(uid: integer, uname: string, password: string, email: string)
 
 **Event Schema:** 
-Events(eid: integer, name: string, organizer: string, type: string, location: string, capacity: integer, date: string)
+Events(eid: integer, ename: string, organizer: string, type: string, location: string, capacity: integer, date: string)
 
 **Reservation Schema:**
 Reservations(uid: integer, eid: integer)
