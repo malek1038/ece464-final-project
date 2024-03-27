@@ -10,6 +10,8 @@ The program would have two views, depending on if the user wishes to sign up or 
 
 Our databse will include data about the users, such as a uid and name. It will include data about events, such as their location, their time and date, their capacity, and the type of event. Data about reservations will include the user that made the reservation and the event that is being reserved including details about that event. Event spaces will list events taking place within them.
 
+**Maybe do a fuzzy search lookup for events, like by name or organizer**
+
 # ER Diagrams
 
 # Schema
@@ -22,6 +24,8 @@ Events(eid: integer, ename: string, organizer: string, type: string, location: s
 
 **Reservation Schema:**
 Reservations(uid: integer, eid: integer)
+
+**Schema for each event of sign up people**
 
 # Table SQL commands
 
