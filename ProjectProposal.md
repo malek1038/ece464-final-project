@@ -44,6 +44,7 @@ Reservations(uid: integer, eid: integer)
       type VARCHAR(30),
       location VARCHAR(100),
       capacity INT,
+      reservations INT,
       time VARCHAR(30),
       date VARCHAR(30)
     );
