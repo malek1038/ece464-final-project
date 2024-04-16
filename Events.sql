@@ -1,0 +1,3 @@
+/*
+SQL queries to create tables for events
+*/
