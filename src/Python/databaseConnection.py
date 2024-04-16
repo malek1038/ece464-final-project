@@ -1,3 +1,6 @@
+import psycopg2
+
+
 # class to connect to the database and execute queries useful for API calls
 
 class DatabaseConnection:
