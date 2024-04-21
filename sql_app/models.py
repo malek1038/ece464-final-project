@@ -5,6 +5,11 @@ from .database import Base
 
 class User(Base):
     __tablename__ = "users"
+    uid = Column(Integer, primary_key = True)
+    uname = Column(String)
+    passw = Column(String)
+    email = Column(String)
+    admin = Column(Boolean)
 
 class Events(Base):
     __tablename__ = "users"
