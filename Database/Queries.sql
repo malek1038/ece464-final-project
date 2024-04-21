@@ -1,5 +1,6 @@
 /*
 Some sample queries we might implement
+Soem of our queries rely on user input.
 */
 
 --Want to have five event types: Food, Workshop, Conference, Performance, Speaker
