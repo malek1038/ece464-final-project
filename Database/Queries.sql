@@ -15,12 +15,12 @@ WHERE Events.type = 'Workshop'
 SELECT Events.ename, Events.organizer, Events.location, Events.capacity, Events.time, Events.date
 FROM Events
 WHERE Events.type = 'Conference'
-  
+
 SELECT Events.ename, Events.organizer, Events.location, Events.capacity, Events.time, Events.date
 FROM Events
-WHERE Events.type = Performance' 
-  
+WHERE Events.type = 'Performance' 
+
 SELECT Events.ename, Events.organizer, Events.location, Events.capacity, Events.time, Events.date
 FROM Events
-WHERE Events.type = Speaker' 
+WHERE Events.type = 'Speaker'
 
