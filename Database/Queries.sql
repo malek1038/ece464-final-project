@@ -24,3 +24,13 @@ SELECT Events.ename, Events.organizer, Events.location, Events.capacity, Events.
 FROM Events
 WHERE Events.type = 'Speaker'
 
+--Get how many spaces an event has
+SELECT Events.reservations - Events.capacity
+FROM Events
+
+
+
+
+
+
+
