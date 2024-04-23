@@ -1,16 +1,18 @@
 #Revise with actual values to be passed
 from pydantic import BaseModel
 
-class ReservationBase(BaseModel):
-    title: str
-    description: str | None = None
+class UserBase(BaseModel):
+    email: str
 
-class ReservationCreate(ReservationBase):
-    pass
 
-class Reservations(ReservationBase):
+class UserCreate(UserBase):
+    password: str
+
+
+class User(UserBase):
     uid: int
-    eid: int
+    uname: string
+    admin: bool
 
     class Config:
         orm_mode = True
