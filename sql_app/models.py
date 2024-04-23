@@ -13,6 +13,8 @@ class User(Base):
     email = Column(String)
     admin = Column(Boolean)
 
+    userReservation = relationship("Reservations", back_populates="reserveUser")
+
 class Events(Base):
     __tablename__ = "events"
     eid = Column(Integer, primary_key = True)
@@ -25,9 +27,15 @@ class Events(Base):
     time = Column(String)
     date = Column(String)
 
+    eventReservation = relationship("Reservations", back_populates="reserveEvent")
+
 class Reservations(Base):
     __tablename__ = "reservations"
     uid = Column(Integer, ForeignKey("user.uid"))
     eid = Column(Integer, ForeignKey("events.eid"))
+
+    reserveUser = relationship("User", back_populates="userReservation")
+    reserveEvent = relationship("Events", back_populates=" eventReservation")
+
 
     
