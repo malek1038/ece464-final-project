@@ -3,7 +3,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from .database import Base
+from database import Base
 
 class User(Base):
     __tablename__ = "user"
@@ -31,11 +31,12 @@ class Events(Base):
 
 class Reservations(Base):
     __tablename__ = "reservations"
+    id = Column(Integer, primary_key=True)  # new primary key column
     uid = Column(Integer, ForeignKey("user.uid"))
     eid = Column(Integer, ForeignKey("events.eid"))
 
     reserveUser = relationship("User", back_populates="userReservation")
-    reserveEvent = relationship("Events", back_populates=" eventReservation")
+    reserveEvent = relationship("Events", back_populates="eventReservation")
 
 
     
