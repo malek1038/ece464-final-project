@@ -26,6 +26,7 @@ class Events(Base):
     reservations = Column(Integer)
     time = Column(String)
     date = Column(String)
+    tags = Column(String, nullable=True)
 
     eventReservation = relationship("Reservations", back_populates="reserveEvent")
 

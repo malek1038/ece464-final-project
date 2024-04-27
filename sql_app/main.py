@@ -15,6 +15,8 @@ def get_db():
     finally:
         db.close()
 
+## USER APIs ##
+
 def get_user_by_id(db: Session, user_id: int):
     user = db.query(User).filter(User.uid == user_id).first()
     if user is None:
@@ -57,6 +59,8 @@ def create_user_route(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not created")
     return "User " + db_user.uname + " created successfully"
 
+## EVENT APIs ##
+
 class EventCreate(BaseModel):
     ename: str
     organizer: str
@@ -66,9 +70,20 @@ class EventCreate(BaseModel):
     reservations: int
     time: str
     date: str
+    tags: str
 
 def create_event(db: Session, event: EventCreate):
-    db_event = Events(ename=event.ename, organizer=event.organizer, type=event.type, location=event.location, capacity=event.capacity, reservations=event.reservations, time=event.time, date=event.date)
+    db_event = Events(
+        ename=event.ename, 
+        organizer=event.organizer, 
+        type=event.type, 
+        location=event.location, 
+        capacity=event.capacity, 
+        reservations=event.reservations, 
+        time=event.time, 
+        date=event.date,
+        tags=(event.ename + ',' + event.organizer + ',' + event.type + ',' + event.location)
+        )
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
@@ -102,6 +117,17 @@ def get_event_by_name(db: Session, event_name: str):
 def read_event(event_name: str, db: Session = Depends(get_db)):
     event = get_event_by_name(db, event_name)
     return event
+
+def get_events_fuzzy(db: Session, query: str):
+    events = db.query(Events).filter(Events.tags.ilike(f"%{query}%")).all()
+    return events
+
+@app.get("/searchEvents/{query}")
+def search_events(query: str, db: Session = Depends(get_db)):
+    events = get_events_fuzzy(db, query)
+    return events
+
+## RESERVATION APIs ##
 
 class ReservationCreate(BaseModel):
     uid: int

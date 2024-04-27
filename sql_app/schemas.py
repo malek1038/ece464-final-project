@@ -11,7 +11,7 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     uid: int
-    uname: string
+    uname: str
     admin: bool
 
     class Config:
