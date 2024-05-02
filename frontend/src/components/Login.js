@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import api from './api'
+import { setToken } from './Auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async() => {
         const response = await api.post('/login/', {
@@ -11,10 +14,11 @@ const Login = () => {
             passw: password
         })
         if (response.data < 0) {
-            console.log('Username or password is incorrect')
+            alert('Username or password is incorrect')
         }
         else {
-            console.log('Login successful!')
+            setToken(response.data)
+            navigate("/profile")
         }
     };
 
