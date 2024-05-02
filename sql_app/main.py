@@ -3,8 +3,21 @@ from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from models import Base, User, Events, Reservations
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    'http://localhost:3000',
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"]
+)
 
 Base.metadata.create_all(bind=engine)
 
@@ -58,6 +71,17 @@ def create_user_route(user: UserCreate, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not created")
     return "User " + db_user.uname + " created successfully"
+
+class LoginItem(BaseModel):
+    uname: str
+    passw: str
+
+@app.post("/login/")
+def login(log: LoginItem, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.uname == log.uname).first()
+    if user is None or (user.passw != log.passw):
+        return -1
+    return user.uid
 
 ## EVENT APIs ##
 
