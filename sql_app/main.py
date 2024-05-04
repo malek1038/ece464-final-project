@@ -106,8 +106,8 @@ def create_event(db: Session, event: EventCreate):
         reservations=event.reservations, 
         time=event.time, 
         date=event.date,
-        tags=(event.ename + ',' + event.organizer + ',' + event.type + ',' + event.location)
-        )
+        tags=(event.tags + ' ,' + event.ename + ' ,' + event.organizer + ' ,' + event.type + ' ,' + event.location)
+    )
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
