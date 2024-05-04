@@ -38,6 +38,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={handleLogin}>Enter</button>
+            <button onClick={() => navigate('/register')}>Register</button>
         </div>
     );
 };
