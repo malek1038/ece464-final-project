@@ -151,6 +151,15 @@ def search_events(query: str, db: Session = Depends(get_db)):
     events = get_events_fuzzy(db, query)
     return events
 
+def get_all_events(db: Session):
+    events = db.query(Events).all()
+    return events
+
+@app.get("/getAllEvents/")
+def get_all_events_route(db: Session = Depends(get_db)):
+    events = get_all_events(db)
+    return events
+
 ## RESERVATION APIs ##
 
 class ReservationCreate(BaseModel):

@@ -1,14 +1,36 @@
-// This file contains the main menu component It will have a block grid of available events
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchToken, dropToken } from './Auth';
 import api from './api';
 
 const MainMenu = () => {
     const navigate = useNavigate();
     const token = fetchToken();
+    const [events, setEvents] = useState([]);
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await api.get('/getAllEvents/');
+                setEvents(response.data);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
+        };
+
+        const fetchUser = async () => {
+            try {
+                const response = await api.get(`/users/${token}`);
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchEvents();
+        fetchUser();
+    }, [token]);
 
     const logOut = () => {
         dropToken();
@@ -17,11 +39,29 @@ const MainMenu = () => {
 
     return (
         <div>
+            <div className="header">
+                <div>Welcome, {user.uname || 'Guest'}</div>
+                <div>
+                    <Link to="/profile">Profile</Link>
+                    <button onClick={logOut}>Log Out</button>
+                </div>
+            </div>
             <h2>Main Menu</h2>
-            <Link to="/profile">Profile</Link>
-            <button onClick={logOut}>Log Out</button>
+            <div className="event-grid">
+                {events.map(event => (
+                    <div key={event.eid} className="event-card">
+                        <h3>{event.ename}</h3>
+                        <p>Organizer: {event.organizer}</p>
+                        <p>Type: {event.type}</p>
+                        <p>Location: {event.location}</p>
+                        <p>Date: {event.date} at {event.time}</p>
+                        <p>Capacity: {event.capacity}</p>
+                        <p>Reservations: {event.reservations}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
 
-export default MainMenu
+export default MainMenu;
