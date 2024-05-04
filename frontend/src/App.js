@@ -2,6 +2,7 @@ import Login  from './components/Login';
 import Profile from './components/Profile';
 import MainMenu from './components/mainMenu';
 import EventPage from './components/eventPage';
+import CreateEventPage from './components/createEventPage';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RequireToken } from './components/Auth';
@@ -29,6 +30,7 @@ function App() {
             }
           />
           <Route path="/event/:eventId" element={<EventPage/>} />
+          <Route path="/create-event" element={<CreateEventPage/>} />
         </Routes>
       </BrowserRouter>
     </div>

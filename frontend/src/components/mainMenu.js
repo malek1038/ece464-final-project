@@ -46,7 +46,10 @@ const MainMenu = () => {
                     <button onClick={logOut}>Log Out</button>
                 </div>
             </div>
-            <h2>Main Menu</h2>
+            <div className="menu-bar">
+                <h2>Main Menu</h2>
+                <button onClick={() => navigate('/create-event')}>Create Event</button>
+            </div>
             <div className="event-grid">
                 {events.map(event => (
                     <Link to={`/event/${event.eid}`} key={event.eid} style={{ textDecoration: 'none', color: 'inherit' }}>
