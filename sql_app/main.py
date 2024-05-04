@@ -188,6 +188,14 @@ def create_reservation_route(reservation: ReservationCreate, db: Session = Depen
         raise HTTPException(status_code=404, detail="User not found")
     if get_event_by_id(db, reservation.eid) is None:
         raise HTTPException(status_code=404, detail="Event not found")
+    # Check if the event is full
+    event = get_event_by_id(db, reservation.eid)
+    if event.capacity == event.reservations:
+        raise HTTPException(status_code=404, detail="Event is full")
+    # Check if the user has already reserved the event
+    if db.query(Reservations).filter(Reservations.uid == reservation.uid, Reservations.eid == reservation.eid).first() is not None:
+        raise HTTPException(status_code=404, detail="User has already reserved the event")
+    
     db_reservation = create_reservation(db, reservation)
     if db_reservation is None:
         raise HTTPException(status_code=404, detail="Reservation not created")

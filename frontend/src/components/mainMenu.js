@@ -49,15 +49,16 @@ const MainMenu = () => {
             <h2>Main Menu</h2>
             <div className="event-grid">
                 {events.map(event => (
-                    <div key={event.eid} className="event-card">
-                        <h3>{event.ename}</h3>
-                        <p>Organizer: {event.organizer}</p>
-                        <p>Type: {event.type}</p>
-                        <p>Location: {event.location}</p>
-                        <p>Date: {event.date} at {event.time}</p>
-                        <p>Capacity: {event.capacity}</p>
-                        <p>Reservations: {event.reservations}</p>
-                    </div>
+                    <Link to={`/event/${event.eid}`} key={event.eid} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="event-card">
+                            <h3>{event.ename}</h3>
+                            <p>Organizer: {event.organizer}</p>
+                            <p>Type: {event.type}</p>
+                            <p>Location: {event.location}</p>
+                            <p>Date: {event.date} at {event.time}</p>
+                            <p>Capacity: {event.capacity} - Reservations: {event.reservations}</p>
+                        </div>
+                    </Link>
                 ))}
             </div>
         </div>
