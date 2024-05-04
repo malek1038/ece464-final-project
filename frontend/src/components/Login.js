@@ -18,7 +18,7 @@ const Login = () => {
         }
         else {
             setToken(response.data)
-            navigate("/profile")
+            navigate("/main-menu")
         }
     };
 
