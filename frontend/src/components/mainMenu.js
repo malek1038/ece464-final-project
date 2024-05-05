@@ -8,6 +8,7 @@ const MainMenu = () => {
     const token = fetchToken();
     const [events, setEvents] = useState([]);
     const [user, setUser] = useState({});
+    const [query, setQuery] = useState('');
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -37,6 +38,15 @@ const MainMenu = () => {
         navigate('/');
     };
 
+    const searchQuery = async () => {
+        try {
+            const response = await api.get(`/searchEvents/?query=${query}`);
+            setEvents(response.data);
+        } catch (error) {
+            console.error('Error with search:', error);
+        }
+    };
+
     return (
         <div>
             <div className="header">
@@ -49,6 +59,10 @@ const MainMenu = () => {
             <div className="menu-bar">
                 <h2>Main Menu</h2>
                 <button onClick={() => navigate('/create-event')}>Create Event</button>
+            </div>
+            <div className="search-bar">
+                <input name='query' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search for events...'/>
+                <button onClick={searchQuery}>Submit</button>
             </div>
             <div className="event-grid">
                 {events.map(event => (

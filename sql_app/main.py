@@ -146,9 +146,13 @@ def get_events_fuzzy(db: Session, query: str):
     events = db.query(Events).filter(Events.tags.ilike(f"%{query}%")).all()
     return events
 
-@app.get("/searchEvents/{query}")
+@app.get("/searchEvents/")
 def search_events(query: str, db: Session = Depends(get_db)):
-    events = get_events_fuzzy(db, query)
+    events = []
+    if not query:
+        events = get_all_events(db)
+    else:
+        events = get_events_fuzzy(db, query)
     return events
 
 def get_all_events(db: Session):
