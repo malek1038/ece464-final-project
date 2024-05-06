@@ -10,11 +10,12 @@ const CreateEventPage = () => {
         type: '',
         location: '',
         capacity: '',
-        reservations: '0', // Default to zero since creating new event
+        reservations: '0',
         time: '',
         date: '',
         tags: ''
     });
+    const [message, setMessage] = useState(''); // State to store the user-friendly messages
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,18 +25,18 @@ const CreateEventPage = () => {
         e.preventDefault();
         try {
             await api.post('/createEvent/', formData);
-            alert('Event created successfully!');
-            navigate('/main-menu');
+            setMessage('Event created successfully!');
+            setTimeout(() => navigate('/main-menu'), 1000); // Redirect after success message
         } catch (error) {
             console.error('Error creating event:', error);
-            alert('Failed to create event!');
+            setMessage('Failed to create event! Please try again.');
         }
     };
 
     return (
-        <div>
+        <div className="create-event-container">
             <h2>Create New Event</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="event-form">
                 <input name="ename" value={formData.ename} onChange={handleChange} placeholder="Event Name" required />
                 <input name="organizer" value={formData.organizer} onChange={handleChange} placeholder="Organizer" required />
                 <input name="type" value={formData.type} onChange={handleChange} placeholder="Type" required />
@@ -44,10 +45,14 @@ const CreateEventPage = () => {
                 <input name="time" value={formData.time} onChange={handleChange} placeholder="Time" required />
                 <input type="date" name="date" value={formData.date} onChange={handleChange} required />
                 <input name="tags" value={formData.tags} onChange={handleChange} placeholder="Tags" required />
-                <button type="submit">Create Event</button>
+                <div className="form-actions">
+                    <button type="button" onClick={() => navigate('/main-menu')}>Cancel</button>
+                    <button type="submit">Create Event</button>
+                </div>
+                {message && <p className="form-message">{message}</p>} {/* Display messages here */}
             </form>
         </div>
     );
 };
 
-export default CreateEventPage
+export default CreateEventPage;

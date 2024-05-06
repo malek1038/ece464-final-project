@@ -199,3 +199,60 @@ input[type='password'] {
 .event-page-container button:hover {
   background-color: #2c5282;
 }
+
+.create-event-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-event-container h2 {
+  text-align: center;
+  color: #333;
+}
+
+.event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-form input, .event-form button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.event-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.event-form button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.event-form button:hover {
+  background-color: #0056b3;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.form-message {
+  color: #d9534f; /* Bootstrap's `danger` color for error messages */
+  color: #5cb85c; /* Bootstrap's `success` color for success messages */
+  text-align: center;
+  margin-top: 10px;
+}
+
