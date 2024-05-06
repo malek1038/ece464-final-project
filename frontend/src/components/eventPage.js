@@ -9,10 +9,9 @@ const EventPage = () => {
     const [event, setEvent] = useState({});
     const [attendees, setAttendees] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [isUserAttending, setIsUserAttending] = useState(false);
+    const [message, setMessage] = useState('');
+    const [isUserAttending, setIsUserAttending] = useState(false); // Define this state here
 
-    // useCallback to memoize fetchEventAndAttendees function
     const fetchEventAndAttendees = useCallback(async () => {
         try {
             const [eventResponse, attendeesResponse] = await Promise.all([
@@ -26,14 +25,14 @@ const EventPage = () => {
             setIsUserAttending(attendeesResponse.data.some(user => user.uid === userId));
             setLoading(false);
         } catch (error) {
-            setError(`Failed to fetch event details or attendees: ${error}`);
+            setMessage(`Failed to fetch event details or attendees: ${error}`);
             setLoading(false);
         }
-    }, [eventId]);  // Dependency array includes eventId to ensure the function updates if eventId changes
+    }, [eventId]);
 
     useEffect(() => {
         fetchEventAndAttendees();
-    }, [fetchEventAndAttendees]);  // useEffect now depends on the memoized function
+    }, [fetchEventAndAttendees]);
 
     const handleJoinEvent = async () => {
         const userId = parseInt(fetchToken(), 10);
@@ -41,11 +40,18 @@ const EventPage = () => {
             uid: userId,
             eid: parseInt(eventId, 10),
         };
+
+        if (event.capacity <= event.reservations) {
+            setMessage('Sorry, this event is already full.');
+            return;
+        }
+
         try {
             await api.post('/createReservation/', reservationDetails);
-            await fetchEventAndAttendees();  // Refetch the data to update the state
+            await fetchEventAndAttendees();
+            setMessage('Joined event successfully!');
         } catch (error) {
-            setError(`Failed to join event: ${error}`);
+            setMessage(`Failed to join event: ${error.message || 'Unknown error'}`);
         }
     };
 
@@ -54,8 +60,9 @@ const EventPage = () => {
         try {
             await api.post('/deleteReservation/', { uid: userId, eid: parseInt(eventId, 10) });
             await fetchEventAndAttendees();
+            setMessage('Reservation canceled successfully!');
         } catch (error) {
-            setError(`Failed to cancel reservation: ${error}`);
+            setMessage(`Failed to cancel reservation: ${error.message || 'Unknown error'}`);
         }
     };
 
@@ -64,8 +71,7 @@ const EventPage = () => {
     };
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
+    
     return (
         <div className="event-page-container">
             <button onClick={handleBackToMenu} style={{ margin: '10px 0' }}>Back to Main Menu</button>
@@ -77,6 +83,7 @@ const EventPage = () => {
             <p>Capacity: {event.capacity} - Reservations: {event.reservations}</p>
             {!isUserAttending && <button onClick={handleJoinEvent}>Join Event</button>}
             {isUserAttending && <button onClick={handleCancelReservation}>Cancel Reservation</button>}
+            {message && <p className="form-message">{message}</p>}
             <div>
                 <h2>Attendees</h2>
                 <ul>
