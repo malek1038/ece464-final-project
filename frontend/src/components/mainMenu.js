@@ -38,6 +38,10 @@ const MainMenu = () => {
         navigate('/');
     };
 
+    const goToProfile = () => {
+        navigate('/profile');
+    };
+
     const searchQuery = async () => {
         try {
             const response = await api.get(`/searchEvents/?query=${query}`);
@@ -52,17 +56,14 @@ const MainMenu = () => {
             <div className="header">
                 <div>Welcome, {user.uname || 'Guest'}</div>
                 <div>
-                    <Link to="/profile">Profile</Link>
+                    <button onClick={goToProfile}>Profile</button>
                     <button onClick={logOut}>Log Out</button>
                 </div>
-            </div>
-            <div className="menu-bar">
-                <h2>Main Menu</h2>
-                <button onClick={() => navigate('/create-event')}>Create Event</button>
             </div>
             <div className="search-bar">
                 <input name='query' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search for events...'/>
                 <button onClick={searchQuery}>Submit</button>
+                <button onClick={() => navigate('/create-event')}>Create Event</button>
             </div>
             <div className="event-grid">
                 {events.map(event => (

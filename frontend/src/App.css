@@ -37,42 +37,78 @@
   }
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #f3f3f3;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* General Font Setup */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body, input, button {
+    font-family: 'Roboto', sans-serif;
 }
 
-.header div {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.App {
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #282c34;  /* Darker background for contrast */
+    color: white;  /* Light text for dark backgrounds */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .menu-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
 }
 
+.search-bar {
+  display: flex;
+  justify-content: center; /* Center the search bar */
+  margin: 20px 0; /* Add some vertical spacing */
+}
+
+.search-bar input, .search-bar button {
+  width: 80%; /* Making input wider */
+  max-width: 800px; /* Ensuring it doesn't get too wide on larger screens */
+  padding: 10px;
+  margin-right: 10px; /* Space between input and button */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-bar button {
+  width: auto; /* Adjust width of button to fit content */
+  padding: 10px 20px;
+  background-color: #4a5568; /* Subdued button color */
+  color: white;
+}
+
+/* Event Grid Layout Adjustments */
 .event-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr); /* Three columns per row */
+  gap: 20px; /* Space between cards */
   padding: 20px;
 }
 
+/* Event Card Styling for Hover Effect */
 .event-card {
-  border: 1px solid #ccc;
+  border: none;
   padding: 16px;
-  text-align: center;
+  text-align: left; /* Left-align text for better readability */
   border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #ffffff; /* White background for a clean look */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.event-card:hover {
+  transform: scale(1.05); /* Enlarge card on hover */
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1); /* Enhanced shadow on hover */
 }
 
 .login-container {
