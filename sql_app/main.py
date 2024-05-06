@@ -255,3 +255,19 @@ def delete_reservation(db: Session, reservation: ReservationCreate):
 def delete_reservation_route(reservation: ReservationCreate, db: Session = Depends(get_db)):
     db_reservation = delete_reservation(db, reservation)
     return "Reservation for user " + str(db_reservation.uid) + " at event " + str(db_reservation.eid) + " deleted successfully"
+
+#Get names of users who have reserved an event
+def get_users_by_event(db: Session, event_id: int):
+    users = db.query(User).join(
+        Reservations
+    ).join(
+        Events
+    ).filter(
+        Events.eid == event_id
+    ).all()
+    return users
+
+@app.get("/usersByEvent/{event_id}")
+def read_users_by_event(event_id: str, db: Session = Depends(get_db)):
+    users = get_users_by_event(db, int(event_id))
+    return users
