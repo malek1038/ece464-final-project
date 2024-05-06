@@ -47,15 +47,15 @@ const Profile = () => {
     }, [token]);
 
     return (
-        <div>
-            <div className="header">
+        <div className="profile-container">
+            <div className="profile-header">
                 <h2>Welcome, {user.uname || 'Loading...'}</h2>
-                <p>Profile page</p>
-                <button onClick={logOut}>Log Out</button>
+                <button onClick={() => navigate('/main-menu')} className="main-menu-button">Back to Main Menu</button>
+                <button onClick={logOut} className="logout-button">Log Out</button>
             </div>
             <div className="reserved-events">
-                <h2>Your Reservations</h2>
-                {events.map(event => (
+                <h2 style={{ textAlign: 'center' }}>Your Reservations</h2>
+                {events.length > 0 ? events.map(event => (
                     <div className="event-listing" key={event.eid}>
                         <h3>{event.ename}</h3>
                         <p>Organizer: {event.organizer}</p>
@@ -64,7 +64,7 @@ const Profile = () => {
                         <p>Date: {event.date} at {event.time}</p>
                         <button onClick={() => deleteReservation(event.eid)}>Delete Reservation</button>
                     </div>
-                )) || 'Loading reservations...'}
+                )) : <p>No reservations found.</p>}
             </div>
         </div>
     );
