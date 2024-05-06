@@ -164,6 +164,17 @@ def get_all_events_route(db: Session = Depends(get_db)):
     events = get_all_events(db)
     return events
 
+@app.get("/eventsByUser/{user_id}")
+def get_events_by_user(user_id: int, db: Session = Depends(get_db)):
+    events = db.query(Events).join(
+        Reservations
+    ).join(
+        User
+    ).filter(
+        User.uid == user_id
+    ).all()
+    return events
+
 ## RESERVATION APIs ##
 
 class ReservationCreate(BaseModel):
