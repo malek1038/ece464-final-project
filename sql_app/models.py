@@ -39,5 +39,3 @@ class Reservations(Base):
     reserveUser = relationship("User", back_populates="userReservation")
     reserveEvent = relationship("Events", back_populates="eventReservation")
 
-
-    

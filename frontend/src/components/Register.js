@@ -15,8 +15,8 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async(e) => {
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
             await api.post('/createUser/', formData);
             alert('Account created successfully!');
@@ -28,16 +28,19 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className="login-container">
+            <header className="login-header">
+                <h1>Eventify</h1>
+            </header>
             <h2>Create Account</h2>
             <form onSubmit={handleSubmit}>
-                <input name="uname" value={formData.uname} onChange={handleChange} placeholder="Username" required/>
-                <input name="passw" value={formData.passw} onChange={handleChange} placeholder="Password" required/>
-                <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" required/>
+                <input name="uname" type="text" value={formData.uname} onChange={handleChange} placeholder="Username" required/>
+                <input name="passw" type="password" value={formData.passw} onChange={handleChange} placeholder="Password" required/>
+                <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email" required/>
                 <button type="submit">Register</button>
             </form>
         </div>
     );
 };
 
-export default Register
+export default Register;
