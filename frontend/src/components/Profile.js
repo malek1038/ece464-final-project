@@ -14,6 +14,24 @@ const Profile = () => {
         navigate("/");
     };
 
+    const fetchEvents = async () => {
+        try {
+            const response = await api.get(`/eventsByUser/${token}`);
+            setEvents(response.data);
+        } catch (error) {
+            console.error('Error fetching your reserved events:', error);
+        }
+    };
+
+    const deleteReservation = async (eventId) => {
+        try {
+            await api.post("/deleteReservation/", { uid: user.uid, eid: eventId });
+            fetchEvents();
+        } catch (error) {
+            console.error('Error deleting reservation:', error);
+        }
+    };
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -24,15 +42,6 @@ const Profile = () => {
             }
         };
     
-        const fetchEvents = async () => {
-            try {
-                const response = await api.get(`/eventsByUser/${token}`);
-                setEvents(response.data);
-            } catch (error) {
-                console.error('Error fetching your reserved events:', error);
-            }
-        };
-        
         fetchUser();
         fetchEvents();
     }, [token]);
@@ -47,12 +56,13 @@ const Profile = () => {
             <div className="reserved-events">
                 <h2>Your Reservations</h2>
                 {events.map(event => (
-                    <div className="event-listing">
+                    <div className="event-listing" key={event.eid}>
                         <h3>{event.ename}</h3>
                         <p>Organizer: {event.organizer}</p>
                         <p>Type: {event.type}</p>
                         <p>Location: {event.location}</p>
                         <p>Date: {event.date} at {event.time}</p>
+                        <button onClick={() => deleteReservation(event.eid)}>Delete Reservation</button>
                     </div>
                 )) || 'Loading reservations...'}
             </div>

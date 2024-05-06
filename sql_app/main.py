@@ -240,3 +240,18 @@ def get_reservations_by_event(db: Session, event_id: int):
 def read_reservations_by_event(event_id: str, db: Session = Depends(get_db)):
     reservations = get_reservations_by_event(db, int(event_id))
     return reservations
+
+def delete_reservation(db: Session, reservation: ReservationCreate):
+    db_reservation = db.query(Reservations).filter(Reservations.uid == reservation.uid, Reservations.eid == reservation.eid).first()
+    if db_reservation is None:
+        raise HTTPException(status_code=404, detail="Reservation not found")
+    db.delete(db_reservation)
+    db.commit()
+    # Update the number of reservations for the event
+    UpdateEventReservations(db, reservation.eid, get_event_by_id(db, reservation.eid).reservations - 1)
+    return db_reservation
+
+@app.post("/deleteReservation/")
+def delete_reservation_route(reservation: ReservationCreate, db: Session = Depends(get_db)):
+    db_reservation = delete_reservation(db, reservation)
+    return "Reservation for user " + str(db_reservation.uid) + " at event " + str(db_reservation.eid) + " deleted successfully"
